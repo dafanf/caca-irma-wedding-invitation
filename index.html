@@ -265,10 +265,41 @@
       rootElement.style.scrollBehavior = 'auto';
     }
 
+    // Function to smoothly scroll to a target element
+    function scrollToElement(element) {
+      window.scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: element.offsetTop,
+      });
+    }
+
+    // Array containing IDs of sections to scroll through
+    const sectionIds = ['#home', '#info', '#gifts'];
+
+    // Function to auto-scroll through sections after a delay
+    function autoScrollSections(index) {
+      // Check if index is out of bounds, if so, return
+      if (index >= sectionIds.length) return;
+
+      // Get the target section element
+      const targetSection = document.querySelector(sectionIds[index]);
+
+      // Scroll to the target section after a delay
+      setTimeout(() => {
+        scrollToElement(targetSection);
+        // Call the function recursively to scroll to the next section
+        autoScrollSections(index + 1);
+      }, 5000); // 3 seconds delay
+    }
+
     function enableScroll() {
-      window.onscroll = function () { }
-      rootElement.style.scrollBehavior = 'smooth';
-      // localStorage.setItem('opened', 'true');
+      // Enable smooth scrolling
+      window.onscroll = function() {};
+      document.documentElement.style.scrollBehavior = 'smooth';
+
+      // Call autoScrollSections starting from the second section (index 1)
+      autoScrollSections(1);
       playAudio();
     }
 
